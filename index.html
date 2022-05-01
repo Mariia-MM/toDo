@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toDo</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="img/icon192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">    
+    <script src="https://unpkg.com/vue@3"></script>    
+    <script defer src="js/index.js"></script>
+</head>
+<body>
+    <div class="container">
+        <main id="app">
+            <section class="login__container hidden" v-if="showLoginForm">
+                <h1>TODO</h1>
+                <form class="login__form">
+                    <div class="input">
+                        <label class="input__label">
+                            Email
+                            <input
+                                class="input__field"
+                                type="email"
+                                placeholder="enter your email"
+                            >
+                        </label>
+                    </div>
+                    <div class="input">
+                        <label class="input__label">
+                            Password
+                            <input
+                                class="input__field"
+                                type="password" 
+                                placeholder="enter your password"
+                            >
+                        </label>
+                        <button class="button" type="submit" @click="showLoginForm = !showLoginForm">Enter</button> 
+                    </div>
+                    <h4>Don't have an account? <a @click="showRegisterForm = !showRegisterForm ">Sign In</a></h4>
+                </form>
+            </section>
+            <section class="sign-up__container" v-if="showRegisterForm">           
+                    <h1>TODO</h1>
+                    <h3>Register</h3>
+                    <form class="login__form">
+                        <div class="input">
+                            <label class="input__label">
+                                User Name
+                                <input
+                                    class="input__field"
+                                    type="text"
+                                    v-model="name"
+                                    placeholder="enter your name"
+                                    showErrors="nameError"          
+                                    errorsList="['The name have to contain more then 4 characters']"
+                                >
+                            </label>
+                        </div>
+                        <div class="input">
+                            <label class="input__label">
+                                Email
+                                <input 
+                                    class="input__field"
+                                    type="email"
+                                    placeholder="enter your email"
+                                    :showErrors="emailError"
+                                    v-model="email"
+                                    :errorsList="['obligatory to write the email','wrong email format']"
+                                >
+                            </label>
+                        </div>
+                        <div class="input">
+                            <label class="input__label">
+                                Password
+                                <input
+                                    class="input__field"
+                                    type="password"
+                                    placeholder="enter your password"
+                                    :showErrors="passwordError"
+                                    v-model="password"
+                                    :errorsList="['obligatory to write the password','passwords does not match']"
+                                >
+                            </label>
+                        </div>
+                        <div class="input">
+                            <label class="input__label">
+                                Repeat the password
+                                <input 
+                                    class="input__field"
+                                    type="password" 
+                                    placeholder="Repeat the password"
+                                    :showErrors="passwordError"
+                                    v-model="password2"   
+                                >
+                            </label>
+                        </div>
+                        <button
+                        class="button"
+                        type="submit"
+                        @click="confirm">Sign Up</button>
+            </section>
+            <section class="tasks__container">
+                <div>
+                    <form>
+                        <label for="search">Find by name</label>
+                        <input id="search" name="search" type="search" v-model="searchRequest">
+                    </form>
+                    <div>
+                        <h1 class="todo"> <span class="to">TO</span> <span>DO</span> </h1>
+
+                        <button class="button" @click="showAddForm= !showAddForm">Add new task</button>
+                    </div>
+                    <div v-if="showAddForm">
+                        <form >
+                            <h3>New task</h3>
+                            <div>
+                                <input v-model="newName" class="input__field" type="text" placeholder="New task">
+                            </div>
+                            <div>
+                                <input v-model="newDescription" class="input__field" type="text" placeholder="description">
+                            </div>
+                            <div>
+                                <button class="button" @click.prevent="addTasks">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div>
+                        <h3>ToDo List</h3>
+                        <table >
+                            <tr>
+                                <th>Task name</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr v-for="task in tasks" >
+                                <td>
+                                    <input 
+                                        v-if="editableTasks == task.id" 
+                                        v-model="editName" 
+                                        class="input__field" 
+                                        type="text" 
+                                    >
+                                    <span v-else>{{task.name}}</span> 
+                                </td>
+                                <td>
+                                    <input 
+                                        v-if="editableTasks == task.id" 
+                                        v-model="editDescription" 
+                                        class="input__field" 
+                                        type="text"
+                                    >
+                                    <span v-else>{{task.description}}</span> 
+                                </td>
+                                <td>
+                                    <button 
+                                    class="button"
+                                    v-if="editableTasks != task.id" 
+                                    :disabled="isLoading"  
+                                    @click="showEditTask(task.id)">Edit task
+                                </button>
+                                <button 
+                                    class="button"
+                                    v-else :disabled="isLoading"
+                                    @click="editTask(task.id)">Save
+                                </button>
+
+                                <button 
+                                    :disabled="isLoading" 
+                                    class="button" 
+                                    @click="deleteTask(task.id)">Delete
+                                </button>
+                                </td>
+                            </tr>
+                        </table>                        
+                    </div>
+                </div>
+            </section>        
+        </main>
+    </div>
+    
+</body>
+</html>
