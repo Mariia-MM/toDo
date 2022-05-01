@@ -52,3 +52,7 @@ a:hover{
 .to{
     color: #30ecec;
 }
+.all-levels--hidden {
+    display: none;
+}
+  

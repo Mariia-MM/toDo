@@ -13,10 +13,11 @@
     <script defer src="js/index.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" >
         <main id="app">
-            <section class="login__container hidden" v-if="showLoginForm">
-                <h1>TODO</h1>
+            <!-- <h1 > <a @click="showLoginForm = !showLoginForm">TODO</a></h1> -->
+            <!-- <section class="login__container hidden" v-if="!showLoginForm">
+                
                 <form class="login__form">
                     <div class="input">
                         <label class="input__label">
@@ -33,16 +34,19 @@
                             Password
                             <input
                                 class="input__field"
-                                type="password" 
+                                type="password"
                                 placeholder="enter your password"
                             >
-                        </label>
-                        <button class="button" type="submit" @click="showLoginForm = !showLoginForm">Enter</button> 
-                    </div>
-                    <h4>Don't have an account? <a @click="showRegisterForm = !showRegisterForm ">Sign In</a></h4>
+                        </label> -->
+                        <h4 >Don't have an account?   <a   @click="showRegisterForm = !showRegisterForm">Sign In</a></h4>
+                        <a class="button"  @click="showTasks = !showTasks">Enter</a>
+                        <!-- <button class="button" type="button" @click="showTasks = !showEditTask" >Enter</button>  -->
+                    <!-- </div> -->
+                    
+                   
                 </form>
             </section>
-            <section class="sign-up__container" v-if="showRegisterForm">           
+            <section class="sign-up__container"  v-if="showRegisterForm"  >
                     <h1>TODO</h1>
                     <h3>Register</h3>
                     <form class="login__form">
@@ -102,14 +106,15 @@
                         type="submit"
                         @click="confirm">Sign Up</button>
             </section>
-            <section class="tasks__container">
+            <section class="login__form" v-if="showTasks" >
                 <div>
-                    <form>
-                        <label for="search">Find by name</label>
-                        <input id="search" name="search" type="search" v-model="searchRequest">
-                    </form>
+                    
                     <div>
                         <h1 class="todo"> <span class="to">TO</span> <span>DO</span> </h1>
+                        <form>
+                            <label for="search">Find by name</label>
+                            <input id="search" name="search" type="search" v-model="searchRequest">
+                        </form>
 
                         <button class="button" @click="showAddForm= !showAddForm">Add new task</button>
                     </div>
@@ -135,7 +140,7 @@
                                 <th>Description</th>
                                 <th>Action</th>
                             </tr>
-                            <tr v-for="task in tasks" >
+                            <tr v-for="task in searchResult" >
                                 <td>
                                     <input 
                                         v-if="editableTasks == task.id" 

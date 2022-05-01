@@ -12,6 +12,7 @@ Vue.createApp({
       return {
          showLoginForm:false,
          showRegisterForm:false,
+         showTasks:false,
          tasks : [],
          APIUrl: 'https://chyjzraoptymrpbdnncg.supabase.co/rest/v1/tasks',
          showAddForm: false,
@@ -23,11 +24,11 @@ Vue.createApp({
          editDescription:'',
          totalPages: 0,
          searchRequest: "",
-         maxElementPage: 5,
+         maxElementPage: 5
 
-        
       }
-    },  computed:{
+    }, 
+     computed:{
         searchResult(){
             const result = this.tasks.filter(task=>task.name.includes(this.searchRequest));
 
@@ -37,7 +38,8 @@ Vue.createApp({
         }
 
     },
-    methods: {       
+    methods: {
+        
         async getTasks() {
            const fetchTasks = await fetch(`${this.APIUrl}?select=*`,{headers});
            this.tasks = await fetchTasks.json();
@@ -91,40 +93,7 @@ Vue.createApp({
                 });
                 this.getTasks();
                 
-        },
-        // 
-        // pushMoviesIntoBD : function(){
-        //     this.moviesFromAPI.forEach((movie) => {
-        //         //console.log(movie.Title);
-        //         fetch (this.APIUrl,
-        //             {
-        //                 headers: this.getHeaders(),
-        //                 method:'POST',
-        //                 body: JSON.stringify({"name":movie.Title, "duration" : 60})
-        //             })
-                
-        //     });
-        // },
-        // getHeaders() {
-        //     const rangeStart=(this.page - 1) * this.resultsNumberOnPage;
-        //     const rangeFinish = rangeStart + this.resultsNumberOnPage;
-            
-        //     //clone headers
-        //     let headersNewRange = JSON.parse(JSON.stringify(headers));
-        //     //modifying the range
-        //     headersNewRange.Range = `${rangeStart}-${rangeFinish}`;            
-        //     return headersNewRange;
-        // },
-        // async getMoviesLength (){
-        //     //get headers without changing range for paging
-        //     const myHeaders = this.getHeaders();
-        //     myHeaders.Range='';
-        //     // get the list of all movies tor to get the quantity
-        //     const fetchMovies = await fetch(`${this.APIUrl}?select=*`,{headers: myHeaders});
-        //     const dataMovies = await fetchMovies.json();
-        //     this.moviesLength=Math.ceil(dataMovies.length/this.resultsNumberOnPage);
-
-        // },
+        },     
     },
     watch:{
         searchRequest: function(){
