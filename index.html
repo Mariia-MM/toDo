@@ -13,11 +13,11 @@
     <script defer src="js/index.js"></script>
 </head>
 <body>
+    
     <div class="container" >
         <main id="app">
-            <!-- <h1 > <a @click="showLoginForm = !showLoginForm">TODO</a></h1> -->
-            <!-- <section class="login__container hidden" v-if="!showLoginForm">
-                
+            <h1 class="logo" id="logo"> <a @click="openLogin()"><span class="to">TO</span><span class="do">DO</span> </a></h1> 
+            <section class="login__container" id="login"  v-if="showLoginForm" >
                 <form class="login__form">
                     <div class="input">
                         <label class="input__label">
@@ -37,16 +37,13 @@
                                 type="password"
                                 placeholder="enter your password"
                             >
-                        </label> -->
-                        <h4 >Don't have an account?   <a   @click="showRegisterForm = !showRegisterForm">Sign In</a></h4>
-                        <a class="button"  @click="showTasks = !showTasks">Enter</a>
-                        <!-- <button class="button" type="button" @click="showTasks = !showEditTask" >Enter</button>  -->
-                    <!-- </div> -->
-                    
-                   
+                        </label>
+                        <h4 >Don't have an account?    <a   @click="openRegister()">Sign In</a></h4>
+                        <a class="button"  @click="closeLogin()">Enter</a>
+                    </div>
                 </form>
             </section>
-            <section class="sign-up__container"  v-if="showRegisterForm"  >
+            <section class="sign-up__container" id="register" v-if="showRegisterForm" >
                     <h1>TODO</h1>
                     <h3>Register</h3>
                     <form class="login__form">
@@ -56,10 +53,7 @@
                                 <input
                                     class="input__field"
                                     type="text"
-                                    v-model="name"
                                     placeholder="enter your name"
-                                    showErrors="nameError"          
-                                    errorsList="['The name have to contain more then 4 characters']"
                                 >
                             </label>
                         </div>
@@ -70,9 +64,6 @@
                                     class="input__field"
                                     type="email"
                                     placeholder="enter your email"
-                                    :showErrors="emailError"
-                                    v-model="email"
-                                    :errorsList="['obligatory to write the email','wrong email format']"
                                 >
                             </label>
                         </div>
@@ -82,10 +73,7 @@
                                 <input
                                     class="input__field"
                                     type="password"
-                                    placeholder="enter your password"
-                                    :showErrors="passwordError"
-                                    v-model="password"
-                                    :errorsList="['obligatory to write the password','passwords does not match']"
+                                    placeholder="enter your password" 
                                 >
                             </label>
                         </div>
@@ -96,31 +84,30 @@
                                     class="input__field"
                                     type="password" 
                                     placeholder="Repeat the password"
-                                    :showErrors="passwordError"
-                                    v-model="password2"   
                                 >
                             </label>
                         </div>
                         <button
                         class="button"
                         type="submit"
-                        @click="confirm">Sign Up</button>
+                        @click="">Sign Up</button>
             </section>
             <section class="login__form" v-if="showTasks" >
                 <div>
                     
                     <div>
-                        <h1 class="todo"> <span class="to">TO</span> <span>DO</span> </h1>
-                        <form>
-                            <label for="search">Find by name</label>
-                            <input id="search" name="search" type="search" v-model="searchRequest">
-                        </form>
-
-                        <button class="button" @click="showAddForm= !showAddForm">Add new task</button>
+                        <a class="button" @click="showSearch = !showSearch">Search 🔎</a> 
+                        <div class="search_form" id="search" v-if="showSearch">
+                            <form>
+                                <label for="search">Find by name</label>
+                                <input  name="search" type="search" v-model="searchRequest">
+                            </form>
+                        </div>
+                        
                     </div>
-                    <div v-if="showAddForm">
+                    <button class="button" @click="showAddForm= !showAddForm">Add new task</button>
+                    <div id="addForm" v-if="showAddForm">
                         <form >
-                            <h3>New task</h3>
                             <div>
                                 <input v-model="newName" class="input__field" type="text" placeholder="New task">
                             </div>
@@ -132,9 +119,9 @@
                             </div>
                         </form>
                     </div>
-                    <div>
+                    <div id="taskList">
                         <h3>ToDo List</h3>
-                        <table >
+                        <table class="task__table">
                             <tr>
                                 <th>Task name</th>
                                 <th>Description</th>

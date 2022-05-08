@@ -24,29 +24,39 @@ Vue.createApp({
          editDescription:'',
          totalPages: 0,
          searchRequest: "",
-         maxElementPage: 5
+         showSearch: false,
+         maxElementPage: 5,
+         el: '#wrapper',
+         seen:true
 
       }
     }, 
      computed:{
         searchResult(){
             const result = this.tasks.filter(task=>task.name.includes(this.searchRequest));
-
-            // this.totalPages = Math.ceil(result.length/this.maxElementPage); //calc the quantity of pages
-
             return result;
         }
-
     },
     methods: {
         
+        openRegister() {
+            document.getElementById("login").style.display="none";
+            this.showRegisterForm = !this.showRegisterForm;
+        },
+        closeLogin() {
+            document.getElementById("login").style.display="none";
+            this.showTasks = !this.showTasks;
+        },
+        openLogin(){
+            this.showLoginForm = !this.showLoginForm;
+            document.getElementById("logo").style.display="none";
+        },
         async getTasks() {
            const fetchTasks = await fetch(`${this.APIUrl}?select=*`,{headers});
            this.tasks = await fetchTasks.json();
         },
         async addTasks(){
-            
-            //add new movie to dataBase
+            //add new task to dataBase
             const fetchTasks = await fetch(this.APIUrl,
                 {
                     headers: headers,
@@ -57,7 +67,8 @@ Vue.createApp({
             //renew the form
             this.newName = '';
             this.newDescription = '';
-            //getting again all movies
+
+            //getting again all tasks
             this.getTasks();
         },
         async deleteTask (id){
@@ -77,13 +88,11 @@ Vue.createApp({
             const editableTasks = this.tasks.filter(function(task){
                 return task.id === id;
             })[0];
-            
             //show data
             this.editName = editableTasks.name;
             this.editDescription = editableTasks.description;
         },
         async editTask (id){
-            
             this.editableTasks = -1;
             const fetchTasks = await fetch(`${this.APIUrl}?id=eq.${id}`,
                 {
@@ -92,8 +101,7 @@ Vue.createApp({
                     body : JSON.stringify({"name":this.editName, "description" : this.editDescription})
                 });
                 this.getTasks();
-                
-        },     
+        },
     },
     watch:{
         searchRequest: function(){
@@ -101,11 +109,8 @@ Vue.createApp({
 
         }
     },
-    
     mounted: function() {
-         this.getTasks();        
-        // this.getMoviesLength();
-        
-    },
+         this.getTasks();
+    }
 
   }).mount('#app')
