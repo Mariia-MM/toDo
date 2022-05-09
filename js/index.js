@@ -1,4 +1,4 @@
-console.log("hswj");
+console.log("login and register forms are not connected to database and does not work");
 const headers = {
     'content-type': 'application/json',
     'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNoeWp6cmFvcHR5bXJwYmRubmNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTEzNTE1NzAsImV4cCI6MTk2NjkyNzU3MH0.A4pYvwvL8Mmuy4LOR2aLQ7RiWbODLo-1XSyBjjKPosA',
